@@ -1,6 +1,7 @@
 FROM node:12
-ENV TOKEN = null
-ENV API_KEY = null
-WORKDIR /dist
+ENV TOKEN=YOUR_TOKEN
+ENV API_KEY=YOUR_API_KEY
+WORKDIR /app
 COPY . . 
-CMD [ "npm run start" ]
+RUN npm i
+ENTRYPOINT npm start 

@@ -10,11 +10,14 @@ Object.keys(botCommands).map((key) => {
   bot.commands.set(prefix + botCommands[key].name, botCommands[key]);
 });
 
-bot.login(TOKEN);
-
-bot.on("ready", () => {
-  console.info(`Logged in as ${bot.user.tag}!`);
-});
+try {
+  bot.login(TOKEN);
+  bot.on("ready", () => {
+    console.info(`Logged in as ${bot.user.tag}!`);
+  });
+} catch (e) {
+  console.error(`Unable to login to Discord: ${e}`);
+}
 
 bot.on("message", (msg) => {
   const args = msg.content.split(/ +/);
