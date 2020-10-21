@@ -5,23 +5,23 @@ module.exports = {
   description: "Grabs Quote Information on Stock Ticker Input",
   async execute(msg, args) {
     try {
-      let ticker = trimPrefix(msg.content, "$quote");
-      if (ticker === "") {
+      const userTicker = trimPrefix(msg.content, "$quote");
+      if (userTicker === "") {
         msg.reply(`Try this: \`$quote <STOCK_TICKER_HERE>\``);
         return;
       }
-      ticker = ticker.replace(/\s/g, "");
-      const quoteUrl = `https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${process.env.API_KEY}`;
+      const trimmedTicker = userTicker.replace(/\s/g, "");
+      const quoteUrl = `https://finnhub.io/api/v1/quote?symbol=${trimmedTicker}&token=${process.env.API_KEY}`;
       const fetchedQuote = await fetch(quoteUrl);
       const jsonQuote = await fetchedQuote.json();
       if (emptyResponse(jsonQuote)) {
         msg.reply(
-          `Sorry, we couldn't find data for \`${ticker}\`. Make sure to use this format: \`$quote <STOCK_TICKER_HERE>\``
+          `Sorry, we couldn't find data for '\`${userTicker}\`'. Make sure to use this format with one ticker at a time: \`$quote <STOCK_TICKER_HERE>\``
         );
         return;
       }
       msg.reply(
-        `**${ticker}**: 
+        `**${trimmedTicker}**: 
         >>> Current Price: **$${jsonQuote.c.toFixed(
           2
         )}**\nOpening Price: **$${jsonQuote.o.toFixed(
