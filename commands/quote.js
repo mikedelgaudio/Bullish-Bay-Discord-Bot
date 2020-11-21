@@ -1,5 +1,7 @@
 const fetch = require("node-fetch");
 const trimPrefix = require("../shared/trim-prefix");
+const emptyResponse = require("../shared/empty-response");
+
 module.exports = {
   name: "quote",
   description: "Grabs Quote Information on Stock Ticker Input",
@@ -32,16 +34,9 @@ module.exports = {
       );
     } catch (e) {
       console.error(e);
+      msg.reply(
+        `Sorry, an unexpected error happened, please message @Mike D#0188`
+      );
     }
   },
 };
-
-function emptyResponse(jsonQuote) {
-  const keys = Object.keys(jsonQuote);
-  for (let key of keys) {
-    if (jsonQuote[key] === 0) {
-      return true;
-    }
-  }
-  return false;
-}
